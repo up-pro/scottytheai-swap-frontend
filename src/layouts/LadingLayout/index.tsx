@@ -1,5 +1,5 @@
 import React, { lazy } from "react"
-import { Link, Outlet } from "react-router-dom"
+import { Link, Outlet, useLocation } from "react-router-dom"
 import { Box, Button, Container, Stack, useTheme } from "@mui/material"
 import { grey } from "@mui/material/colors"
 
@@ -12,6 +12,9 @@ const Footer = lazy(() => import('./Footer'))
 
 export default function LandingLayout() {
   const theme = useTheme()
+  const { pathname } = useLocation()
+  console.log('>>>>>>>>> pathname => ', pathname)
+
   return (
     <Stack sx={{ minHeight: '100vh' }} bgcolor={theme.palette.background.default}>
       <Header />
@@ -21,14 +24,14 @@ export default function LandingLayout() {
           <Stack direction="row" mb={1}>
             {/* Swap */}
             <Stack direction="row">
-              <Stack height={40} px={2} bgcolor={grey[800]} justifyContent="center">
+              <Stack height={40} px={2} justifyContent="center" bgcolor={pathname === '/swap' ? theme.palette.primary.main : grey[800]}>
                 <Button component={Link} to="/swap">Swap</Button>
               </Stack>
               <Box
                 width={0}
                 height={0}
                 sx={{
-                  borderBottom: `40px solid ${grey[800]}`,
+                  borderBottom: `40px solid ${pathname === '/swap' ? theme.palette.primary.main : grey[800]}`,
                   borderRight: '20px solid transparent'
                 }}
               />
@@ -36,7 +39,14 @@ export default function LandingLayout() {
 
             {/* Limit */}
             <Box position="relative">
-              <Stack height={40} width={80} px={2} bgcolor={grey[800]} justifyContent="center" sx={{ transform: 'skew(28deg)' }} />
+              <Stack
+                height={40}
+                width={80}
+                px={2}
+                bgcolor={pathname === '/limit' ? theme.palette.primary.main : grey[800]}
+                justifyContent="center"
+                sx={{ transform: 'skew(28deg)' }}
+              />
               <Stack justifyContent="center" alignItems="center" position="absolute" height="100%" width="100%" top={0} left={0}>
                 <Button component={Link} to="/limit">Limit</Button>
               </Stack>
@@ -48,11 +58,11 @@ export default function LandingLayout() {
                 width={0}
                 height={0}
                 sx={{
-                  borderTop: `40px solid ${grey[800]}`,
+                  borderTop: `40px solid ${pathname === '/farm' ? theme.palette.primary.main : grey[800]}`,
                   borderLeft: '21px solid transparent'
                 }}
               />
-              <Stack height={40} px={2} bgcolor={grey[800]} justifyContent="center">
+              <Stack height={40} px={2} bgcolor={pathname === '/farm' ? theme.palette.primary.main : grey[800]} justifyContent="center">
                 <Button component={Link} to="/farm">Farm</Button>
               </Stack>
             </Stack>
