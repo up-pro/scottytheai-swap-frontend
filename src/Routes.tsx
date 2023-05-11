@@ -1,9 +1,9 @@
 import React, { lazy } from "react";
 import { Navigate, useRoutes } from "react-router";
+import LandingLayout from "./layouts/LadingLayout";
 
 // -------------------------------------------------------------------------------------------
 
-const LandingLayout = lazy(() => import('./layouts/LadingLayout'))
 const Swap = lazy(() => import('./pages/Swap'))
 const Limit = lazy(() => import('./pages/Limit'))
 

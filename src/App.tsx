@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './Routes';
+import Loading from './components/Loading';
 
 // ---------------------------------------------------------------------------------
 
@@ -32,11 +33,13 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
-    </ThemeProvider>
+    <Suspense fallback={<Loading />}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </ThemeProvider>
+    </Suspense>
   );
 }
 
