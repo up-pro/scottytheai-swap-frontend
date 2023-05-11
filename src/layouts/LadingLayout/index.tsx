@@ -13,7 +13,6 @@ const Footer = lazy(() => import('./Footer'))
 export default function LandingLayout() {
   const theme = useTheme()
   const { pathname } = useLocation()
-  console.log('>>>>>>>>> pathname => ', pathname)
 
   return (
     <Stack sx={{ minHeight: '100vh' }} bgcolor={theme.palette.background.default}>
