@@ -6,3 +6,10 @@ export interface ISocialLink {
   url: string;
   label: string;
 }
+
+export interface ICryptoSelectItem {
+  id: number;
+  label: string;
+  imgSrc: string;
+  value: string;
+}

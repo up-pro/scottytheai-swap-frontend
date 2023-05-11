@@ -9,6 +9,7 @@ export default function Footer() {
       <Container maxWidth="md" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {SOCIAL_LINKS.map(linkItem => (
           <Button
+            key={linkItem.id}
             variant="text"
             startIcon={createElement(linkItem.icon)}
             component={Link}
