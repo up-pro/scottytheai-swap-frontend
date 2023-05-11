@@ -1,11 +1,7 @@
-"use client"
-import React, { createElement } from 'react';
-import { Container, Button, Box, useTheme } from '@mui/material'
-import { SOCIAL_LINKS } from '@/utils/constants'
-import Link from 'next/link';
-import { grey } from '@mui/material/colors'
-
-// ----------------------------------------------------------------------------------------
+import React, { createElement } from "react"
+import { Box, Button, Container, Link, useTheme } from "@mui/material"
+import { grey } from "@mui/material/colors"
+import { SOCIAL_LINKS } from "../../utils/constants"
 
 export default function Footer() {
   const theme = useTheme()

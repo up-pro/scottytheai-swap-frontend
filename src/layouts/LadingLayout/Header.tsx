@@ -1,11 +1,9 @@
-"use client";
-import React, { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { AppBar, Toolbar, Container, Button, Stack, Box, FormControlLabel, Switch, useTheme, Paper } from '@mui/material'
-import { ArrowDropDown } from '@mui/icons-material';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Container, Stack, Button, Box, useTheme, Paper, FormControlLabel, Switch } from "@mui/material";
+import { ArrowDropDown } from "@mui/icons-material";
 
-// ---------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 
 export default function Header() {
   const theme = useTheme()
@@ -16,15 +14,14 @@ export default function Header() {
       <Toolbar>
         <Container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Stack direction="row" alignItems="center" spacing={4}>
-            <Button variant="text" component={Link} href="/">Swap</Button>
-            <Button variant="text" component={Link} href="/limit">Limit</Button>
+            <Button variant="text" component={Link} to="/swap">Swap</Button>
+            <Button variant="text" component={Link} to="/limit">Limit</Button>
           </Stack>
 
-          <Image
+          <Box
+            component="img"
             src="/assets/images/logo.png"
             alt="logo"
-            width={303}
-            height={60}
           />
 
           <Stack direction="row" alignItems="center" spacing={4}>
