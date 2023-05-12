@@ -3,6 +3,8 @@ import { Box, Button, Container, Link } from "@mui/material"
 import { grey } from "@mui/material/colors"
 import { SOCIAL_LINKS } from "../../utils/constants"
 
+// --------------------------------------------------------------------------------
+
 export default function Footer() {
   return (
     <Box py={2} bgcolor={grey[900]}>

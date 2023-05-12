@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Container, Stack, Button, Box, useTheme, Paper, FormControlLabel, Switch } from "@mui/material";
+import { AppBar, Toolbar, Container, Stack, Button, Box, useTheme, Paper, FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { ArrowDropDown } from "@mui/icons-material";
+import { useWeb3Modal } from "@web3modal/react"
+import { useAccount, useDisconnect, useSwitchNetwork, useNetwork } from "wagmi"
 
 // ---------------------------------------------------------------------------------
 
 export default function Header() {
   const theme = useTheme()
+  const { open } = useWeb3Modal()
+  const { isConnected } = useAccount()
+  const { disconnect } = useDisconnect()
+  const { switchNetwork } = useSwitchNetwork()
+  const { chain } = useNetwork()
+
   const [switchNetworkMenuOpened, setSwitchNetworkMenuOpened] = useState(false)
+  const [currentChainId, setCurrentChainId] = useState<number>(1)
+
+  useEffect(() => {
+    if (chain) {
+      setCurrentChainId(chain.id)
+    }
+  }, [chain])
+
+  const handleCurrentChainId = (e: ChangeEvent<HTMLInputElement>) => {
+    const chainId = Number(e.target.value)
+    switchNetwork?.(chainId)
+  }
 
   return (
     <AppBar position="static" sx={{ py: 1 }}>
@@ -42,24 +62,32 @@ export default function Header() {
                   borderTop: `2px solid ${theme.palette.primary.main}`,
                 }}
               >
-                <FormControlLabel
-                  control={<Switch />}
-                  label="Switch to Mainnet"
-                  labelPlacement="start"
-                  sx={{ justifyContent: 'space-between' }}
-                  componentsProps={{ typography: { fontSize: 18 } }}
-                />
-                <FormControlLabel
-                  control={<Switch />}
-                  label="Switch to BSC"
-                  labelPlacement="start"
-                  sx={{ justifyContent: 'space-between' }}
-                  componentsProps={{ typography: { fontSize: 18 } }}
-                />
+                <RadioGroup onChange={handleCurrentChainId} value={currentChainId}>
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="Switch to Mainnet"
+                    labelPlacement="start"
+                    sx={{ justifyContent: 'space-between' }}
+                    componentsProps={{ typography: { fontSize: 18 } }}
+                    value={1}
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="Switch to BSC"
+                    labelPlacement="start"
+                    sx={{ justifyContent: 'space-between' }}
+                    componentsProps={{ typography: { fontSize: 18 } }}
+                    value={56}
+                  />
+                </RadioGroup>
               </Paper>
             </Box>
 
-            <Button variant="contained" sx={{ borderRadius: 9999 }}>Connect Wallet</Button>
+            {isConnected ? (
+              <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => disconnect()}>Disconnect</Button>
+            ) : (
+              <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => open()}>Connect Wallet</Button>
+            )}
           </Stack>
         </Container>
       </Toolbar>
