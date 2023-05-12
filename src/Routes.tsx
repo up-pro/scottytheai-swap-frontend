@@ -6,6 +6,7 @@ import LandingLayout from "./layouts/LadingLayout";
 
 const Swap = lazy(() => import('./pages/Swap'))
 const Limit = lazy(() => import('./pages/Limit'))
+const Farm = lazy(() => import('./pages/Farm'))
 
 // -------------------------------------------------------------------------------------------
 
@@ -22,6 +23,10 @@ export default function Routes() {
         {
           path: 'limit',
           element: <Limit />
+        },
+        {
+          path: 'farm',
+          element: <Farm />
         },
         {
           path: '*',
