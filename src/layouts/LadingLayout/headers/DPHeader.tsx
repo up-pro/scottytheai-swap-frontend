@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Container, Stack, Button, Box, useTheme, Paper, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { AppBar, Toolbar, Container, Stack, Button, Box, useTheme, Paper, FormControlLabel, Radio, RadioGroup, useMediaQuery } from "@mui/material";
 import { ArrowDropDown } from "@mui/icons-material";
 import { useWeb3Modal } from "@web3modal/react"
 import { useAccount, useDisconnect, useSwitchNetwork, useNetwork } from "wagmi"
 
 // ---------------------------------------------------------------------------------
 
-export default function Header() {
+export default function DPHeader() {
   const theme = useTheme()
   const { open } = useWeb3Modal()
   const { isConnected } = useAccount()
@@ -17,6 +17,8 @@ export default function Header() {
 
   const [switchNetworkMenuOpened, setSwitchNetworkMenuOpened] = useState(false)
   const [currentChainId, setCurrentChainId] = useState<number>(1)
+
+  const isTablet = useMediaQuery(theme.breakpoints.down('lg'))
 
   useEffect(() => {
     if (chain) {
@@ -57,6 +59,7 @@ export default function Header() {
                   display: switchNetworkMenuOpened ? 'flex' : 'none',
                   flexDirection: "column",
                   top: '120%',
+                  left: '-80%',
                   p: 1,
                   minWidth: 260,
                   borderTop: `2px solid ${theme.palette.primary.main}`,
@@ -86,7 +89,9 @@ export default function Header() {
             {isConnected ? (
               <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => disconnect()}>Disconnect</Button>
             ) : (
-              <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => open()}>Connect Wallet</Button>
+              <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => open()}>
+                {isTablet ? 'Connect' : 'Connect Wallet'}
+              </Button>
             )}
           </Stack>
         </Container>

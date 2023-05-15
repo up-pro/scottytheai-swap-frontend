@@ -1,11 +1,11 @@
 import React, { createElement } from "react"
 import { Box, Button, Container, Link } from "@mui/material"
 import { grey } from "@mui/material/colors"
-import { SOCIAL_LINKS } from "../../utils/constants"
+import { SOCIAL_LINKS } from "../../../utils/constants"
 
 // --------------------------------------------------------------------------------
 
-export default function Footer() {
+export default function DPFooter() {
   return (
     <Box py={2} bgcolor={grey[900]}>
       <Container maxWidth="md" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

@@ -1,26 +1,29 @@
 import React, { lazy } from "react"
 import { Link, Outlet, useLocation } from "react-router-dom"
-import { Box, Button, Container, Stack, useTheme } from "@mui/material"
+import { Box, Button, Container, Stack, useMediaQuery, useTheme } from "@mui/material"
 import { grey } from "@mui/material/colors"
 
 // -------------------------------------------------------------------------------------------
 
-const Header = lazy(() => import('./Header'))
-const Footer = lazy(() => import('./Footer'))
+const DPHeader = lazy(() => import('./headers/DPHeader'))
+const MBHeader = lazy(() => import('./headers/MBHeader'))
+const DPFooter = lazy(() => import('./footers/DPFooter'))
+const MBFooter = lazy(() => import('./footers/MBFooter'))
 
 // -------------------------------------------------------------------------------------------
 
 export default function LandingLayout() {
   const theme = useTheme()
   const { pathname } = useLocation()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
     <Stack sx={{ minHeight: '100vh' }} bgcolor={theme.palette.background.default}>
-      <Header />
+      {isMobile ? <MBHeader /> : <DPHeader />}
       <Box flexGrow={1} py={8}>
         <Container>
           {/* Tab buttons */}
-          <Stack direction="row" mb={1}>
+          <Stack direction="row" mb={1} justifyContent={{ xs: 'space-between', sm: 'start' }}>
             {/* Swap */}
             <Stack direction="row">
               <Stack height={40} px={2} justifyContent="center" bgcolor={pathname === '/swap' ? theme.palette.primary.main : grey[800]}>
@@ -70,7 +73,7 @@ export default function LandingLayout() {
           <Outlet />
         </Container>
       </Box>
-      <Footer />
+      {isMobile ? <MBFooter /> : <DPFooter />}
     </Stack >
   )
 }
