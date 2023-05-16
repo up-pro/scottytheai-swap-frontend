@@ -3,6 +3,7 @@ import { AppBar, Box, Button, Container, FormControlLabel, Paper, Radio, RadioGr
 import { useWeb3Modal } from '@web3modal/react';
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { ArrowDropDown } from '@mui/icons-material';
+import { useClickOutside } from "@mantine/hooks";
 
 export default function MBHeader() {
   const theme = useTheme()
@@ -14,6 +15,8 @@ export default function MBHeader() {
 
   const [switchNetworkMenuOpened, setSwitchNetworkMenuOpened] = useState(false)
   const [currentChainId, setCurrentChainId] = useState<number>(1)
+
+  const ref = useClickOutside(() => setSwitchNetworkMenuOpened(false))
 
   useEffect(() => {
     if (chain) {
@@ -47,6 +50,7 @@ export default function MBHeader() {
           <Button
             onClick={() => setSwitchNetworkMenuOpened(!switchNetworkMenuOpened)}
             endIcon={<ArrowDropDown />}
+            disabled={!isConnected}
           >Ethereum</Button>
           <Paper
             sx={{
@@ -59,6 +63,7 @@ export default function MBHeader() {
               borderTop: `2px solid ${theme.palette.primary.main}`,
               zIndex: 9999
             }}
+            ref={ref}
           >
             <RadioGroup onChange={handleCurrentChainId} value={currentChainId}>
               <FormControlLabel

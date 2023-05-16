@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Container, Stack, Button, Box, useTheme, Paper, FormCo
 import { ArrowDropDown } from "@mui/icons-material";
 import { useWeb3Modal } from "@web3modal/react"
 import { useAccount, useDisconnect, useSwitchNetwork, useNetwork } from "wagmi"
+import { useClickOutside } from "@mantine/hooks";
 
 // ---------------------------------------------------------------------------------
 
@@ -17,6 +18,7 @@ export default function DPHeader() {
 
   const [switchNetworkMenuOpened, setSwitchNetworkMenuOpened] = useState(false)
   const [currentChainId, setCurrentChainId] = useState<number>(1)
+  const ref = useClickOutside(() => setSwitchNetworkMenuOpened(false))
 
   const isTablet = useMediaQuery(theme.breakpoints.down('lg'))
 
@@ -52,6 +54,7 @@ export default function DPHeader() {
               <Button
                 onClick={() => setSwitchNetworkMenuOpened(!switchNetworkMenuOpened)}
                 endIcon={<ArrowDropDown />}
+                disabled={!isConnected}
               >Ethereum</Button>
               <Paper
                 sx={{
@@ -64,6 +67,7 @@ export default function DPHeader() {
                   minWidth: 260,
                   borderTop: `2px solid ${theme.palette.primary.main}`,
                 }}
+                ref={ref}
               >
                 <RadioGroup onChange={handleCurrentChainId} value={currentChainId}>
                   <FormControlLabel
