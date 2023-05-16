@@ -2,17 +2,14 @@ import React, { ChangeEvent, useState } from "react";
 import { Box, Button, ButtonGroup, Grid, MenuItem, Stack, Typography } from "@mui/material";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Panel, TextFieldForCryptoAmount, TextFieldForCryptoSelect } from "../components/styledComponents";
-import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from "../utils/constants";
 import { grey } from "@mui/material/colors";
+import { Panel, TextFieldForCryptoAmount, TextFieldForCryptoSelect } from "../../components/styledComponents";
+import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from "../../utils/constants";
+import { TMode } from "../../utils/types";
 
 // --------------------------------------------------------------------------------------------------------
 
-type TMode = 'buy' | 'sell'
-
-// --------------------------------------------------------------------------------------------------------
-
-export default function Limit() {
+export default function DPLimit() {
   const [mode, setMode] = useState<TMode>('buy')
   const [fromTokenValue, setFromTokenValue] = useState<string>(CRYPTO_SELECT_ITEMS[0].value)
   const [fromTokenAmount, setFromTokenAmount] = useState<string>('0')

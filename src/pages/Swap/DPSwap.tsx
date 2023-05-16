@@ -1,12 +1,15 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
-import { Box, Button, MenuItem, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Button, MenuItem, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { Panel, TextFieldForCryptoAmount, TextFieldForCryptoSelect } from "../components/styledComponents";
-import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from "../utils/constants";
-import { ICryptoSelectItem } from "../utils/interfaces";
+import { Panel, TextFieldForCryptoAmount, TextFieldForCryptoSelect } from "../../components/styledComponents";
+import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from "../../utils/constants";
+import { ICryptoSelectItem } from "../../utils/interfaces";
 
-export default function Swap() {
+// ----------------------------------------------------------------------------------------------------
+
+export default function DPSwap() {
   const theme = useTheme()
+  const isTablet = useMediaQuery(theme.breakpoints.down('lg'))
 
   const [fromTokenValue, setFromTokenValue] = useState<string>(CRYPTO_SELECT_ITEMS[0].value)
   const [fromTokenAmount, setFromTokenAmount] = useState<string>('0')
@@ -51,7 +54,7 @@ export default function Swap() {
 
   return (
     <Box position="relative">
-      <Panel pt={2} pb={16} px={4} borderRadius="0px 10px 10px 10px">
+      <Panel pt={2} pb={isTablet ? 8 : 16} mb={24} px={4} borderRadius="0px 10px 10px 10px">
         <Stack direction="row" justifyContent="end" alignItems="center" spacing={2}>
           <Stack direction="row" alignItems="center" spacing={0.5}>
             <Box component="img" src="/assets/images/petrol.svg" width={24} />
@@ -116,25 +119,18 @@ export default function Swap() {
         </Stack>
       </Panel>
 
-      <Stack
-        position="absolute"
-        width="100%"
-        direction="row"
-        justifyContent="center"
-        bottom="-40%"
-      >
+      {isTablet ? (
         <Stack
-          position="relative"
-          width="60%"
           justifyContent="center"
           bgcolor={theme.palette.background.default}
           borderRadius={4}
+          mt={4}
         >
           <Box
             borderRadius={4}
             border={`1px solid ${theme.palette.primary.main}`}
             px={8}
-            pb={8}
+            pb={4}
             sx={{ background: 'linear-gradient(81.45deg, rgba(253, 124, 30, 0.13) 0.73%, rgba(32, 32, 32, 0) 96.54%)' }}
           >
             <Stack direction="row" justifyContent="center">
@@ -146,7 +142,7 @@ export default function Swap() {
               />
             </Stack>
 
-            <Stack direction="row" alignItems="center" spacing={2} mt={4}>
+            <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} mt={4}>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <Typography component="span" textTransform="uppercase" color="white">{fromToken?.label}</Typography>
                 <Box component="img" src={fromToken?.imgSrc} alt={fromToken?.label} />
@@ -164,16 +160,76 @@ export default function Swap() {
               Note: You will be able to adjust your gas fees after clicking "Swap".
               If volatility is high, you must increase your slippage significantly.
             </Typography>
-          </Box>
 
-          <Stack direction="row" justifyContent="center" width="100%" position="absolute" bottom="-10%">
-            <Button
-              variant="contained"
-              sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
-            >Connect Wallet</Button>
+            <Stack direction="row" justifyContent="center" width="100%" mt={4}>
+              <Button
+                variant="contained"
+                sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
+              >Connect Wallet</Button>
+            </Stack>
+          </Box>
+        </Stack>
+      ) : (
+        <Stack
+          position="absolute"
+          width="100%"
+          direction="row"
+          justifyContent="center"
+          bottom="-40%"
+        >
+          <Stack
+            position="relative"
+            width="60%"
+            justifyContent="center"
+            bgcolor={theme.palette.background.default}
+            borderRadius={4}
+          >
+            <Box
+              borderRadius={4}
+              border={`1px solid ${theme.palette.primary.main}`}
+              px={8}
+              pb={8}
+              sx={{ background: 'linear-gradient(81.45deg, rgba(253, 124, 30, 0.13) 0.73%, rgba(32, 32, 32, 0) 96.54%)' }}
+            >
+              <Stack direction="row" justifyContent="center">
+                <Box
+                  borderTop={`10px solid ${theme.palette.primary.main}`}
+                  borderLeft="10px solid transparent"
+                  borderRight="10px solid transparent"
+                  width={140}
+                />
+              </Stack>
+
+              <Stack direction="row" alignItems="center" spacing={2} mt={4}>
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <Typography component="span" textTransform="uppercase" color="white">{fromToken?.label}</Typography>
+                  <Box component="img" src={fromToken?.imgSrc} alt={fromToken?.label} />
+                </Stack>
+
+                <Box component="img" src="/assets/images/arrows-to-right.png" alt="arrows-to-right" />
+
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <Box component="img" src={toToken?.imgSrc} alt={toToken?.label} />
+                  <Typography component="span" textTransform="uppercase" color="white">{toToken?.label}</Typography>
+                </Stack>
+              </Stack>
+
+              <Typography fontSize={14} textAlign="justify" color="white" lineHeight={2}>
+                Note: You will be able to adjust your gas fees after clicking "Swap".
+                If volatility is high, you must increase your slippage significantly.
+              </Typography>
+            </Box>
+
+            <Stack direction="row" justifyContent="center" width="100%" position="absolute" bottom="-10%">
+              <Button
+                variant="contained"
+                sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
+              >Connect Wallet</Button>
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
+      )
+      }
     </Box>
   )
 }
