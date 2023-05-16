@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
 import { Box, Button, MenuItem, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useWeb3Modal } from "@web3modal/react";
+import { useAccount, useDisconnect } from "wagmi";
 import { Panel, TextFieldForCryptoAmount, TextFieldForCryptoSelect } from "../../components/styledComponents";
 import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from "../../utils/constants";
 import { ICryptoSelectItem } from "../../utils/interfaces";
@@ -10,6 +12,9 @@ import { ICryptoSelectItem } from "../../utils/interfaces";
 export default function DPSwap() {
   const theme = useTheme()
   const isTablet = useMediaQuery(theme.breakpoints.down('lg'))
+  const { open } = useWeb3Modal()
+  const { isConnected } = useAccount()
+  const { disconnect } = useDisconnect()
 
   const [fromTokenValue, setFromTokenValue] = useState<string>(CRYPTO_SELECT_ITEMS[0].value)
   const [fromTokenAmount, setFromTokenAmount] = useState<string>('0')
@@ -162,10 +167,21 @@ export default function DPSwap() {
             </Typography>
 
             <Stack direction="row" justifyContent="center" width="100%" mt={4}>
-              <Button
-                variant="contained"
-                sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
-              >Connect Wallet</Button>
+              {isConnected ? (
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
+                  onClick={() => disconnect()}
+                >Disconnect</Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
+                  onClick={() => open()}
+                >
+                  {isTablet ? 'Connect' : 'Connect Wallet'}
+                </Button>
+              )}
             </Stack>
           </Box>
         </Stack>
@@ -221,10 +237,21 @@ export default function DPSwap() {
             </Box>
 
             <Stack direction="row" justifyContent="center" width="100%" position="absolute" bottom="-10%">
-              <Button
-                variant="contained"
-                sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
-              >Connect Wallet</Button>
+              {isConnected ? (
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
+                  onClick={() => disconnect()}
+                >Disconnect</Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
+                  onClick={() => open()}
+                >
+                  {isTablet ? 'Connect' : 'Connect Wallet'}
+                </Button>
+              )}
             </Stack>
           </Stack>
         </Stack>

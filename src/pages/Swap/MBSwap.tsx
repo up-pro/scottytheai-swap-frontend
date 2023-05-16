@@ -1,6 +1,8 @@
 import React, { useState, useMemo, ChangeEvent } from 'react';
 import { Box, Button, MenuItem, Stack, Typography, useTheme } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useWeb3Modal } from '@web3modal/react';
+import { useAccount, useDisconnect } from 'wagmi';
 import { Panel, TextFieldForCryptoSelect } from "../../components/styledComponents";
 import { TextFieldForCryptoAmount } from "../../components/styledComponents";
 import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from "../../utils/constants";
@@ -8,6 +10,9 @@ import { ICryptoSelectItem } from '../../utils/interfaces';
 
 export default function MBSwap() {
   const theme = useTheme()
+  const { open } = useWeb3Modal()
+  const { isConnected } = useAccount()
+  const { disconnect } = useDisconnect()
 
   const [fromTokenValue, setFromTokenValue] = useState<string>(CRYPTO_SELECT_ITEMS[0].value)
   const [fromTokenAmount, setFromTokenAmount] = useState<string>('0')
@@ -143,10 +148,21 @@ export default function MBSwap() {
           If volatility is high, you must increase your slippage significantly.
         </Typography>
 
-        <Button
-          variant="contained"
-          sx={{ borderRadius: 9999, fontSize: 20, px: 4, width: '100%', mt: 2 }}
-        >Connect Wallet</Button>
+        {isConnected ? (
+          <Button
+            variant="contained"
+            sx={{ borderRadius: 9999, fontSize: 20, px: 4, width: '100%', mt: 2 }}
+            onClick={() => disconnect()}
+          >Disconnect</Button>
+        ) : (
+          <Button
+            variant="contained"
+            sx={{ borderRadius: 9999, fontSize: 20, px: 4, width: '100%', mt: 2 }}
+            onClick={() => open()}
+          >
+            Connect Wallet
+          </Button>
+        )}
       </Box>
     </Box>
   )
