@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { Box, Button, MenuItem, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useWeb3Modal } from "@web3modal/react";
@@ -222,7 +222,9 @@ export default function DPSwap() {
                   <Box component="img" src={fromToken?.imgSrc} alt={fromToken?.label} />
                 </Stack>
 
-                <Box component="img" src="/assets/images/arrows-to-right.png" alt="arrows-to-right" />
+                <Stack direction="row" justifyContent="center" flexGrow={1}>
+                  <Box component="img" src="/assets/images/arrows-to-right.png" alt="arrows-to-right" />
+                </Stack>
 
                 <Stack direction="row" alignItems="center" spacing={2}>
                   <Box component="img" src={toToken?.imgSrc} alt={toToken?.label} />

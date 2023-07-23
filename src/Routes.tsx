@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import { Navigate, useRoutes } from "react-router";
 import LandingLayout from "./layouts/LadingLayout";
+import ComingSoon from "./pages/ComingSoon";
 
 // -------------------------------------------------------------------------------------------
 
@@ -16,21 +17,25 @@ export default function Routes() {
       path: '/',
       element: <LandingLayout />,
       children: [
+        // {
+        //   path: 'swap',
+        //   element: <Swap />
+        // },
+        // {
+        //   path: 'limit',
+        //   element: <Limit />
+        // },
+        // {
+        //   path: 'farm',
+        //   element: <Farm />
+        // },
         {
-          path: 'swap',
-          element: <Swap />
-        },
-        {
-          path: 'limit',
-          element: <Limit />
-        },
-        {
-          path: 'farm',
-          element: <Farm />
+          path: '/',
+          element: <ComingSoon />
         },
         {
           path: '*',
-          element: <Navigate to="/swap" replace />
+          element: <Navigate to="/" replace />
         }
       ]
     }
