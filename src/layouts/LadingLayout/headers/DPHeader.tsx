@@ -49,7 +49,8 @@ export default function DPHeader() {
 
           <Box
             component="img"
-            src="/assets/images/logo.png"
+            src="/assets/images/logo.svg"
+            sx={{ width: 360 }}
             alt="logo"
           />
 

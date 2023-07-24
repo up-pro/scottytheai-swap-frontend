@@ -23,7 +23,7 @@ export default function LandingLayout() {
       <Box flexGrow={1} py={{ xs: 4, md: 8 }}>
         <Container>
           {/* Tab buttons */}
-          <Stack direction="row" mb={1} justifyContent={{ xs: 'space-between', sm: 'start' }}>
+          <Stack direction="row" mb={1} justifyContent="start">
             {/* Swap */}
             <Stack direction="row">
               <Stack height={40} px={2} justifyContent="center" bgcolor={pathname === '/swap' ? theme.palette.primary.main : grey[800]}>
