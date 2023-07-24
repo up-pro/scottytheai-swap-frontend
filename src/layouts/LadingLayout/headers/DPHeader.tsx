@@ -5,6 +5,7 @@ import { ArrowDropDown } from "@mui/icons-material";
 import { useWeb3Modal } from "@web3modal/react"
 import { useAccount, useDisconnect, useSwitchNetwork, useNetwork } from "wagmi"
 import { useClickOutside } from "@mantine/hooks";
+import { toast } from 'react-toastify'
 
 // ---------------------------------------------------------------------------------
 
@@ -31,6 +32,10 @@ export default function DPHeader() {
   const handleCurrentChainId = (e: ChangeEvent<HTMLInputElement>) => {
     const chainId = Number(e.target.value)
     switchNetwork?.(chainId)
+  }
+
+  const handleConnectWallet = () => {
+    toast.info('Coming Soon')
   }
 
   return (
@@ -93,7 +98,7 @@ export default function DPHeader() {
             {isConnected ? (
               <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => disconnect()}>Disconnect</Button>
             ) : (
-              <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => open()}>
+              <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => handleConnectWallet()}>
                 {isTablet ? 'Connect' : 'Connect Wallet'}
               </Button>
             )}

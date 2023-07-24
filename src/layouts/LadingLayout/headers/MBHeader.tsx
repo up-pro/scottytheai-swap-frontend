@@ -4,6 +4,7 @@ import { useWeb3Modal } from '@web3modal/react';
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useClickOutside } from "@mantine/hooks";
+import { toast } from 'react-toastify';
 
 export default function MBHeader() {
   const theme = useTheme()
@@ -27,6 +28,10 @@ export default function MBHeader() {
   const handleCurrentChainId = (e: ChangeEvent<HTMLInputElement>) => {
     const chainId = Number(e.target.value)
     switchNetwork?.(chainId)
+  }
+
+  const handleConnectWallet = () => {
+    toast.info('Coming Soon')
   }
 
   return (
@@ -89,7 +94,7 @@ export default function MBHeader() {
         {isConnected ? (
           <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => disconnect()}>Disconnect</Button>
         ) : (
-          <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => open()}>Connect Wallet</Button>
+          <Button variant="contained" sx={{ borderRadius: 9999 }} onClick={() => handleConnectWallet()}>Connect Wallet</Button>
         )}
       </Stack>
     </Stack>

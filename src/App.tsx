@@ -5,6 +5,7 @@ import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum';
 import { Web3Modal } from '@web3modal/react';
 import { mainnet, bsc } from 'wagmi/chains';
+import { ToastContainer } from 'react-toastify';
 import Routes from './Routes';
 import Loading from './components/Loading';
 
@@ -55,6 +56,7 @@ function App() {
           </BrowserRouter>
         </ThemeProvider>
       </WagmiConfig>
+      <ToastContainer />
       <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
     </Suspense>
   );

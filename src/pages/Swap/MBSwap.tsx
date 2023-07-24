@@ -3,6 +3,7 @@ import { Box, Button, MenuItem, Stack, Typography, useTheme } from "@mui/materia
 import { grey } from "@mui/material/colors";
 import { useWeb3Modal } from '@web3modal/react';
 import { useAccount, useDisconnect } from 'wagmi';
+import { toast } from 'react-toastify';
 import { Panel, TextFieldForCryptoSelect } from "../../components/styledComponents";
 import { TextFieldForCryptoAmount } from "../../components/styledComponents";
 import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from "../../utils/constants";
@@ -53,6 +54,10 @@ export default function MBSwap() {
       setToTokenAmount(value);
       setFromTokenAmount((Number(value) / ratioOfFromToTo).toFixed(5))
     }
+  }
+
+  const handleConnectWallet = () => {
+    toast.info('Coming Soon.');
   }
 
   return (
@@ -158,7 +163,7 @@ export default function MBSwap() {
           <Button
             variant="contained"
             sx={{ borderRadius: 9999, fontSize: 20, px: 4, width: '100%', mt: 2 }}
-            onClick={() => open()}
+            onClick={() => handleConnectWallet()}
           >
             Connect Wallet
           </Button>

@@ -3,6 +3,7 @@ import { Box, Button, MenuItem, Stack, Typography, useMediaQuery, useTheme } fro
 import { grey } from "@mui/material/colors";
 import { useWeb3Modal } from "@web3modal/react";
 import { useAccount, useDisconnect } from "wagmi";
+import { toast } from "react-toastify";
 import { Panel, TextFieldForCryptoAmount, TextFieldForCryptoSelect } from "../../components/styledComponents";
 import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from "../../utils/constants";
 import { ICryptoSelectItem } from "../../utils/interfaces";
@@ -55,6 +56,10 @@ export default function DPSwap() {
       setToTokenAmount(value);
       setFromTokenAmount((Number(value) / ratioOfFromToTo).toFixed(5))
     }
+  }
+
+  const handleConnectWallet = () => {
+    toast.info('Coming Soon.');
   }
 
   return (
@@ -177,7 +182,7 @@ export default function DPSwap() {
                 <Button
                   variant="contained"
                   sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
-                  onClick={() => open()}
+                  onClick={() => handleConnectWallet()}
                 >
                   {isTablet ? 'Connect' : 'Connect Wallet'}
                 </Button>
@@ -249,7 +254,7 @@ export default function DPSwap() {
                 <Button
                   variant="contained"
                   sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
-                  onClick={() => open()}
+                  onClick={() => handleConnectWallet()}
                 >
                   {isTablet ? 'Connect' : 'Connect Wallet'}
                 </Button>
