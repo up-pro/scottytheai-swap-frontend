@@ -29,6 +29,10 @@ export default function Routes() {
           element: <Farm />
         },
         {
+          path: '',
+          element: <Navigate to="/swap" replace />
+        },
+        {
           path: '*',
           element: <Navigate to="/swap" replace />
         }

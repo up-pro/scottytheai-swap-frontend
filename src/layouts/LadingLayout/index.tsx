@@ -55,7 +55,7 @@ export default function LandingLayout() {
             </Box>
 
             {/* Farm */}
-            <Stack direction="row">
+            {/* <Stack direction="row">
               <Box
                 width={0}
                 height={0}
@@ -67,7 +67,7 @@ export default function LandingLayout() {
               <Stack height={40} px={2} bgcolor={pathname === '/farm' ? theme.palette.primary.main : grey[800]} justifyContent="center">
                 <Button component={Link} to="/farm">Farm</Button>
               </Stack>
-            </Stack>
+            </Stack> */}
           </Stack>
 
           <Outlet />
