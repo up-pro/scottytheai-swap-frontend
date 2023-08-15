@@ -46,3 +46,5 @@ export const CRYPTO_SELECT_ITEMS: Array<ICryptoSelectItem> = [
 ];
 
 export const REGEX_NUMBER_VALID = /^[0-9]*\.?[0-9]*$/;
+export const LOGO_BASE_URL =
+  "https://raw.githubusercontent.com/Uniswap/assets/master/blockchains/ethereum/assets";

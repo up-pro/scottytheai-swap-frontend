@@ -1,4 +1,4 @@
-import React, { useState, useMemo, ChangeEvent } from 'react';
+import { useState, useMemo, ChangeEvent } from 'react';
 import { Box, Button, MenuItem, Stack, Typography, useTheme } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useWeb3Modal } from '@web3modal/react';
@@ -9,7 +9,15 @@ import { TextFieldForCryptoAmount } from "../../components/styledComponents";
 import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from "../../utils/constants";
 import { ICryptoSelectItem } from '../../utils/interfaces';
 
-export default function MBSwap() {
+//  --------------------------------------------------------------------------------------------------------------------
+
+interface IProps {
+  openSelectTokenDialog: (_isSelectFromToken: boolean) => void;
+}
+
+//  --------------------------------------------------------------------------------------------------------------------
+
+export default function MBSwap({ openSelectTokenDialog }: IProps) {
   const theme = useTheme()
   const { open } = useWeb3Modal()
   const { isConnected } = useAccount()

@@ -1,51 +1,43 @@
 import { ChangeEvent, useMemo, useState } from "react";
-import { Box, Button, MenuItem, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Avatar, Box, Button, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useWeb3Modal } from "@web3modal/react";
 import { useAccount, useDisconnect } from "wagmi";
-import { toast } from "react-toastify";
-import { Panel, TextFieldForCryptoAmount, TextFieldForCryptoSelect } from "../../components/styledComponents";
-import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from "../../utils/constants";
-import { ICryptoSelectItem } from "../../utils/interfaces";
+import { Panel, TextFieldForCryptoAmount } from "../../components/styledComponents";
+import { REGEX_NUMBER_VALID } from "../../utils/constants";
+import { IToken } from "../../utils/interfaces";
 
-// ----------------------------------------------------------------------------------------------------
+//  --------------------------------------------------------------------------------------------------------------------
 
-export default function DPSwap() {
+interface IProps {
+  openSelectTokenDialog: (_isSelectFromToken: boolean) => void;
+  fromToken: IToken | null;
+  toToken: IToken | null;
+  ratio: number;
+}
+
+//  --------------------------------------------------------------------------------------------------------------------
+
+export default function DPSwap({ openSelectTokenDialog, fromToken, toToken, ratio }: IProps) {
   const theme = useTheme()
   const isTablet = useMediaQuery(theme.breakpoints.down('lg'))
   const { open } = useWeb3Modal()
   const { isConnected } = useAccount()
   const { disconnect } = useDisconnect()
 
-  const [fromTokenValue, setFromTokenValue] = useState<string>(CRYPTO_SELECT_ITEMS[0].value)
+  //  --------------------------------------------------------------------------------
+
   const [fromTokenAmount, setFromTokenAmount] = useState<string>('0')
-  const [toTokenValue, setToTokenValue] = useState<string>(CRYPTO_SELECT_ITEMS[2].value)
   const [toTokenAmount, setToTokenAmount] = useState<string>('0')
-  const [ratioOfFromToTo, setRatioOfFromToto] = useState<number>(1.4);
 
-  const fromToken = useMemo<ICryptoSelectItem | undefined>(() => {
-    return CRYPTO_SELECT_ITEMS.find(cryptoItem => cryptoItem.value === fromTokenValue)
-  }, [fromTokenValue])
-
-  const toToken = useMemo<ICryptoSelectItem | undefined>(() => {
-    return CRYPTO_SELECT_ITEMS.find(cryptoItem => cryptoItem.value === toTokenValue)
-  }, [toTokenValue])
-
-
-  const handleFromTokenValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setFromTokenValue(e.target.value)
-  }
-
-  const handleToTokenValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setToTokenValue(e.target.value)
-  }
+  //  --------------------------------------------------------------------------------
 
   const handleFromTokenAmount = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
     if (value.match(REGEX_NUMBER_VALID)) {
       setFromTokenAmount(value);
-      setToTokenAmount((Number(value) * ratioOfFromToTo).toFixed(5));
+      setToTokenAmount(`${Number(value) * ratio}`)
     }
   }
 
@@ -54,13 +46,37 @@ export default function DPSwap() {
 
     if (value.match(REGEX_NUMBER_VALID)) {
       setToTokenAmount(value);
-      setFromTokenAmount((Number(value) / ratioOfFromToTo).toFixed(5))
+      if (ratio > 0) {
+        setFromTokenAmount(`${Number(value) / ratio}`)
+      } else {
+        setFromTokenAmount('0')
+      }
     }
   }
 
   const handleConnectWallet = () => {
-    toast.info('Coming Soon.');
+    open?.()
   }
+
+  //  --------------------------------------------------------------------------------
+
+  const fromTokenAmountToView = useMemo<string>(() => {
+    if (fromTokenAmount[0] === '0') {
+      if (fromTokenAmount[1] !== '.')
+        return `${Number(fromTokenAmount)}`
+    }
+    return fromTokenAmount
+  }, [fromTokenAmount])
+
+  const toTokenAmountToView = useMemo<string>(() => {
+    if (toTokenAmount[0] === '0') {
+      if (toTokenAmount[1] !== '.')
+        return `${Number(toTokenAmount)}`
+    }
+    return toTokenAmount
+  }, [toTokenAmount])
+
+  //  --------------------------------------------------------------------------------
 
   return (
     <Box position="relative">
@@ -76,54 +92,58 @@ export default function DPSwap() {
           </Box>
         </Stack>
 
-        <Stack direction="row" spacing={4} mt={4}>
+        <Stack direction="row" spacing={4} mt={4} alignItems="center">
           <Stack flex={1} spacing={2}>
-            <TextFieldForCryptoSelect
-              select
-              onChange={handleFromTokenValue}
-              value={fromTokenValue}
-            >
-              {CRYPTO_SELECT_ITEMS.map(cryptoItem => (
-                <MenuItem
-                  key={cryptoItem.id}
-                  sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
-                  value={cryptoItem.value}
-                  disabled={cryptoItem.value === toTokenValue}
-                >
-                  <Box component="img" src={cryptoItem.imgSrc} width={30} alt={cryptoItem.label} />
-                  <Typography component="span" fontSize={18} textTransform="uppercase">{cryptoItem.label}</Typography>
-                </MenuItem>
-              ))}
-            </TextFieldForCryptoSelect>
+            {fromToken ? (
+              <Button
+                startIcon={<Avatar src={fromToken.logo} alt={fromToken.symbol} />}
+                variant="contained"
+                sx={{ bgcolor: grey[800] }}
+                onClick={() => openSelectTokenDialog(true)}
+              >
+                {fromToken.symbol}
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{ bgcolor: grey[800] }}
+                onClick={() => openSelectTokenDialog(true)}
+              >
+                Select a Token
+              </Button>
+            )}
 
             <TextFieldForCryptoAmount
-              value={fromTokenAmount}
+              value={fromTokenAmountToView}
               onChange={handleFromTokenAmount}
             />
           </Stack>
           <Box component="img" src="/assets/images/swap.png" />
           <Stack flex={1} spacing={2}>
-            <TextFieldForCryptoSelect
-              select
-              onChange={handleToTokenValue}
-              value={toTokenValue}
-            >
-              {CRYPTO_SELECT_ITEMS.map(cryptoItem => (
-                <MenuItem
-                  key={cryptoItem.id}
-                  sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
-                  value={cryptoItem.value}
-                  disabled={cryptoItem.value === fromTokenValue}
-                >
-                  <Box component="img" src={cryptoItem.imgSrc} width={30} alt={cryptoItem.label} />
-                  <Typography component="span" fontSize={18} textTransform="uppercase">{cryptoItem.label}</Typography>
-                </MenuItem>
-              ))}
-            </TextFieldForCryptoSelect>
+            {toToken ? (
+              <Button
+                startIcon={<Avatar src={toToken.logo} alt={toToken.symbol} />}
+                variant="contained"
+                sx={{ bgcolor: grey[800] }}
+                onClick={() => openSelectTokenDialog(false)}
+              >
+                {toToken.symbol}
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{ bgcolor: grey[800] }}
+                disabled={!fromToken}
+                onClick={() => openSelectTokenDialog(false)}
+              >
+                Select a Token
+              </Button>
+            )}
 
             <TextFieldForCryptoAmount
-              value={toTokenAmount}
+              value={toTokenAmountToView}
               onChange={handleToTokenAmount}
+              disabled={!fromToken}
             />
           </Stack>
         </Stack>
@@ -154,15 +174,27 @@ export default function DPSwap() {
 
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} mt={4}>
               <Stack direction="row" alignItems="center" spacing={2}>
-                <Typography component="span" textTransform="uppercase" color="white">{fromToken?.label}</Typography>
-                <Box component="img" src={fromToken?.imgSrc} alt={fromToken?.label} />
+                {fromToken ? (
+                  <>
+                    <Typography component="span" textTransform="uppercase" color="white">{fromToken.symbol}</Typography>
+                    <Avatar src={fromToken.logo} alt={fromToken.symbol} />
+                  </>
+                ) : (
+                  <></>
+                )}
               </Stack>
 
               <Box component="img" src="/assets/images/arrows-to-right.png" alt="arrows-to-right" />
 
               <Stack direction="row" alignItems="center" spacing={2}>
-                <Box component="img" src={toToken?.imgSrc} alt={toToken?.label} />
-                <Typography component="span" textTransform="uppercase" color="white">{toToken?.label}</Typography>
+                {toToken ? (
+                  <>
+                    <Avatar src={toToken.logo} alt={toToken.symbol} />
+                    <Typography component="span" textTransform="uppercase" color="white">{toToken.symbol}</Typography>
+                  </>
+                ) : (
+                  <></>
+                )}
               </Stack>
             </Stack>
 
@@ -223,8 +255,12 @@ export default function DPSwap() {
 
               <Stack direction="row" alignItems="center" spacing={2} mt={4}>
                 <Stack direction="row" alignItems="center" spacing={2}>
-                  <Typography component="span" textTransform="uppercase" color="white">{fromToken?.label}</Typography>
-                  <Box component="img" src={fromToken?.imgSrc} alt={fromToken?.label} />
+                  {fromToken ? (<>
+                    <Typography component="span" textTransform="uppercase" color="white">{fromToken.symbol}</Typography>
+                    <Avatar src={fromToken.logo} alt={fromToken.symbol} />
+                  </>) : (
+                    <></>
+                  )}
                 </Stack>
 
                 <Stack direction="row" justifyContent="center" flexGrow={1}>
@@ -232,8 +268,14 @@ export default function DPSwap() {
                 </Stack>
 
                 <Stack direction="row" alignItems="center" spacing={2}>
-                  <Box component="img" src={toToken?.imgSrc} alt={toToken?.label} />
-                  <Typography component="span" textTransform="uppercase" color="white">{toToken?.label}</Typography>
+                  {toToken ? (
+                    <>
+                      <Avatar src={toToken.logo} alt={toToken.symbol} />
+                      <Typography component="span" textTransform="uppercase" color="white">{toToken.symbol}</Typography>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </Stack>
               </Stack>
 
