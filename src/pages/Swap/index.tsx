@@ -1,8 +1,7 @@
 import { Box } from '@mui/material'
 import { SwapWidget, Theme } from '@uniswap/widgets'
-import { CHAIN_ID } from '../../utils/constants'
 import { grey, orange } from '@mui/material/colors'
-// import { usePublicClient } from 'wagmi'
+import { CHAIN_ID } from '../../utils/constants'
 
 const theme: Theme = {
   primary: '#FFF',
@@ -18,7 +17,6 @@ const theme: Theme = {
 }
 
 export default function Swap() {
-  // const publicClient = usePublicClient()
   return (
     <Box className="Uniswap">
       <SwapWidget
