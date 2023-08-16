@@ -1,4 +1,4 @@
-import React, { createElement } from 'react';
+import { createElement } from 'react';
 import { Box, Button, Container, IconButton, Link, Stack } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { SOCIAL_LINKS } from "../../../utils/constants";

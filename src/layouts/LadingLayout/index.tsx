@@ -1,4 +1,4 @@
-import React, { lazy } from "react"
+import { lazy } from "react"
 import { Link, Outlet, useLocation } from "react-router-dom"
 import { Box, Button, Container, Stack, useMediaQuery, useTheme } from "@mui/material"
 import { grey } from "@mui/material/colors"

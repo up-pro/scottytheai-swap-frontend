@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent } from 'react'
 import { Box, Button, ButtonGroup, MenuItem, Stack, Typography, useTheme } from '@mui/material'
 import { InfoOutlined, LockOpen } from '@mui/icons-material'
 import { CRYPTO_SELECT_ITEMS, REGEX_NUMBER_VALID } from '../../utils/constants'

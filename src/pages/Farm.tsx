@@ -1,4 +1,3 @@
-import React from "react";
 import { Panel } from "../components/styledComponents";
 
 export default function Farm() {

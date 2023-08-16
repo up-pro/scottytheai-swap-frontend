@@ -1,6 +1,6 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { AppBar, Box, Button, Container, FormControlLabel, Paper, Radio, RadioGroup, Stack, Toolbar, useTheme } from "@mui/material";
-import { useWeb3Modal } from '@web3modal/react';
+// import { useWeb3Modal } from '@web3modal/react';
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useClickOutside } from "@mantine/hooks";
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 export default function MBHeader() {
   const theme = useTheme()
-  const { open } = useWeb3Modal()
+  // const { open } = useWeb3Modal()
   const { isConnected } = useAccount()
   const { disconnect } = useDisconnect()
   const { switchNetwork } = useSwitchNetwork()

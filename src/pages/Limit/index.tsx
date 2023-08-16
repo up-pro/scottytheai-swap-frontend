@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import { lazy } from 'react'
 import { useMediaQuery, useTheme } from "@mui/material"
 
 // ----------------------------------------------------------------------------

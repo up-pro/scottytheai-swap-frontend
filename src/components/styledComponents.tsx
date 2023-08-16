@@ -6,7 +6,7 @@ export const Panel = styled(Box)`
   background: linear-gradient(${grey[900]}, ${grey[900]}) padding-box, linear-gradient(to top, ${grey[800]}, ${grey[800]}) border-box;
 `
 
-export const MBPanel = styled(Box)(({ theme }) => ({
+export const MBPanel = styled(Box)(() => ({
   border: '1px solid transparent',
   background: `linear-gradient(${grey[900]}, ${grey[900]}) padding-box, linear-gradient(to top, ${grey[800]}, ${grey[800]}) border-box`
 }))
