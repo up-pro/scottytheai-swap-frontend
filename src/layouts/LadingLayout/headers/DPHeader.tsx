@@ -1,11 +1,10 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Container, Stack, Button, Box, useTheme, Paper, FormControlLabel, Radio, RadioGroup, useMediaQuery } from "@mui/material";
 import { ArrowDropDown } from "@mui/icons-material";
 import { useWeb3Modal } from "@web3modal/react"
 import { useAccount, useDisconnect, useSwitchNetwork, useNetwork } from "wagmi"
 import { useClickOutside } from "@mantine/hooks";
-import { toast } from 'react-toastify'
 
 // ---------------------------------------------------------------------------------
 
@@ -35,7 +34,7 @@ export default function DPHeader() {
   }
 
   const handleConnectWallet = () => {
-    toast.info('Coming Soon')
+    open?.()
   }
 
   return (
