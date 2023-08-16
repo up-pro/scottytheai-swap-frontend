@@ -2,9 +2,11 @@ import { ChangeEvent, useMemo, useState } from "react";
 import { Avatar, Box, Button, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useWeb3Modal } from "@web3modal/react";
-import { useAccount, useDisconnect } from "wagmi";
+import { useAccount, useContractWrite, useDisconnect, usePrepareContractWrite, useWaitForTransaction } from "wagmi";
+import { parseUnits } from "viem";
+import { toast } from "react-toastify";
 import { Panel, TextFieldForCryptoAmount } from "../../components/styledComponents";
-import { REGEX_NUMBER_VALID } from "../../utils/constants";
+import { CHAIN_ID, ERC20_ABI, REGEX_NUMBER_VALID, V3_SWAP_ROUTER_ADDRESS } from "../../utils/constants";
 import { IToken } from "../../utils/interfaces";
 
 //  --------------------------------------------------------------------------------------------------------------------
@@ -32,6 +34,33 @@ export default function DPSwap({ openSelectTokenDialog, fromToken, toToken, rati
 
   //  --------------------------------------------------------------------------------
 
+  //  Approve fromToken
+  const { config: fromTokenApproveConfig } = usePrepareContractWrite({
+    address: fromToken?.id,
+    abi: ERC20_ABI,
+    functionName: 'approve',
+    args: [V3_SWAP_ROUTER_ADDRESS, parseUnits(fromTokenAmount, Number(fromToken?.decimals))]
+  })
+  const { write: approveFromToken, data: fromTokenApproveData } = useContractWrite(fromTokenApproveConfig)
+  const { isSuccess: fromTokenApproved } = useWaitForTransaction({
+    hash: fromTokenApproveData?.hash
+  })
+
+  //  Approve toToken
+  const { config: toTokenApproveConfig } = usePrepareContractWrite({
+    address: toToken?.id,
+    abi: ERC20_ABI,
+    functionName: 'approve',
+    args: [V3_SWAP_ROUTER_ADDRESS, parseUnits(toTokenAmount, Number(toToken?.decimals))]
+  })
+  const { write: approveToToken, data: toTokenApproveData } = useContractWrite(toTokenApproveConfig)
+  const { isSuccess: toTokenApproved } = useWaitForTransaction({
+    hash: toTokenApproveData?.hash
+  })
+
+  //  --------------------------------------------------------------------------------
+
+  //  Set the amount of fromToken
   const handleFromTokenAmount = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
@@ -41,6 +70,7 @@ export default function DPSwap({ openSelectTokenDialog, fromToken, toToken, rati
     }
   }
 
+  //  Set the amount of toToken
   const handleToTokenAmount = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
@@ -54,8 +84,18 @@ export default function DPSwap({ openSelectTokenDialog, fromToken, toToken, rati
     }
   }
 
+  //  Connect wallet
   const handleConnectWallet = () => {
     open?.()
+  }
+
+  //  Swap
+  const handleSwap = async () => {
+    if (fromToken && toToken) {
+
+    } else {
+      toast.warn('Please select both tokens.')
+    }
   }
 
   //  --------------------------------------------------------------------------------
@@ -290,8 +330,8 @@ export default function DPSwap({ openSelectTokenDialog, fromToken, toToken, rati
                 <Button
                   variant="contained"
                   sx={{ borderRadius: 9999, border: '2px solid black', fontSize: 20, px: 4 }}
-                  onClick={() => disconnect()}
-                >Disconnect</Button>
+                  onClick={() => handleSwap()}
+                >Swap</Button>
               ) : (
                 <Button
                   variant="contained"
@@ -304,8 +344,7 @@ export default function DPSwap({ openSelectTokenDialog, fromToken, toToken, rati
             </Stack>
           </Stack>
         </Stack>
-      )
-      }
+      )}
     </Box>
   )
 }

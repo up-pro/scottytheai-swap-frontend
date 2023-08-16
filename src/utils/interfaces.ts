@@ -15,9 +15,10 @@ export interface ICryptoSelectItem {
 }
 
 export interface IToken {
-  id: string;
+  id: `0x${string}`;
   symbol: string;
   name: string;
+  decimals: string;
   logo: string;
 }
 

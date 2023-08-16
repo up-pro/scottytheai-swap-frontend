@@ -34,6 +34,7 @@ export default function SelectTokenDialog({ dialogOpened, closeDialog, selectedT
         id: token.id,
         name: token.name,
         symbol: token.symbol,
+        decimals: token.decimals,
         logo: token.logo
       })
     } else {
@@ -45,6 +46,7 @@ export default function SelectTokenDialog({ dialogOpened, closeDialog, selectedT
     setSearchKeyword(e.target.value)
   }
 
+  //  Search token
   useEffect(() => {
     if (debouncedSearchKeyword) {
       let query = ``;
@@ -61,6 +63,7 @@ export default function SelectTokenDialog({ dialogOpened, closeDialog, selectedT
                 id
                 name
                 symbol
+                decimals
               }
               token1Price
             }
@@ -76,6 +79,7 @@ export default function SelectTokenDialog({ dialogOpened, closeDialog, selectedT
                 id
                 name
                 symbol
+                decimals
               }
               token1Price
             }
@@ -151,7 +155,7 @@ export default function SelectTokenDialog({ dialogOpened, closeDialog, selectedT
     } else {
       setSearchedTokens(tokens)
     }
-  }, [tokens, debouncedSearchKeyword])
+  }, [tokens, debouncedSearchKeyword, fromToken, setRatio])
 
   return (
     <Dialog open={dialogOpened} onClose={() => closeDialog()} fullWidth>

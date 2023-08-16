@@ -53,6 +53,7 @@ export default function Swap() {
           id
           name
           symbol
+          decimals
         }
       }`
     }))
@@ -62,7 +63,6 @@ export default function Swap() {
           for (let i = 0; i < tokens.length; i += 1) {
             tokens[i].logo = `${LOGO_BASE_URL}/${getAddress(tokens[i].id)}/logo.png`
           }
-          console.log('>>>>>>>>>>> fromTokens => ', tokens)
           setFromTokens(tokens)
         }
       })
@@ -86,6 +86,7 @@ export default function Swap() {
               id
               name
               symbol
+              decimals
             }
             token1Price
           }
@@ -100,7 +101,6 @@ export default function Swap() {
               token1.logo = `${LOGO_BASE_URL}/${getAddress(token1.id)}/logo.png`
               tokens.push({ ...token1, token1Price })
             }
-            console.log('>>>>>>>>>>> toTokens => ', tokens)
             setToTokens(tokens)
           }
         })
